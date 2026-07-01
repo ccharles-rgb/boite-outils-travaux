@@ -9,7 +9,7 @@ window.APP_CONFIG = {
 
   // Option avancee : URL d'une application Google Apps Script pour ajouter
   // un chantier directement depuis le site dans Google Sheets.
-  googleAppsScriptUrl: ""
+  googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbwitP7BrCfryzmIrb4k9remL8XnPI6pZWDeifTn8gSzcIvA4rWj907rP7Rlzwsch1sM7Q/exec"
 };
 
 // Liste de secours utilisee si aucune Google Sheet n'est configuree.
