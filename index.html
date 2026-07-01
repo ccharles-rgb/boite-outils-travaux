@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Boîte à outils travaux</title>
+    <meta
+      name="description"
+      content="Boîte à outils statique pour conducteur de travaux."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="page-header" aria-labelledby="page-title">
+        <p class="eyebrow">Boîte à outils</p>
+        <h1 id="page-title">Conducteur de travaux</h1>
+      </section>
+
+      <section class="tool-card" aria-labelledby="requests-title">
+        <div class="card-header">
+          <div>
+            <p class="card-kicker">Gestion rapide</p>
+            <h2 id="requests-title">Demandes</h2>
+          </div>
+          <span class="card-icon" aria-hidden="true">📋</span>
+        </div>
+
+        <button class="primary-action" type="button" id="openTruckForm">
+          <span aria-hidden="true">🚛</span>
+          <span>Demande de camion</span>
+        </button>
+
+        <form class="request-form" id="truckForm" hidden>
+          <div class="form-grid">
+            <label class="field">
+              <span>Chantier</span>
+              <input type="text" id="siteName" autocomplete="organization" required>
+            </label>
+
+            <label class="field">
+              <span>Adresse</span>
+              <input type="text" id="siteAddress" autocomplete="street-address" required>
+            </label>
+
+            <label class="field">
+              <span>Date souhaitée</span>
+              <input type="date" id="requestedDate" required>
+            </label>
+
+            <label class="field">
+              <span>Heure souhaitée</span>
+              <input type="time" id="requestedTime" required>
+            </label>
+
+            <label class="field">
+              <span>Type de camion</span>
+              <select id="truckType" required>
+                <option value="" selected disabled>Choisir un camion</option>
+                <option value="Semi">Semi</option>
+                <option value="Porte-char">Porte-char</option>
+                <option value="Extra surbaissé">Extra surbaissé</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Nombre de racks</span>
+              <input type="number" id="rackCount" inputmode="numeric" min="0" step="1">
+            </label>
+
+            <label class="field">
+              <span>Contact chantier</span>
+              <input type="text" id="siteContact" autocomplete="name">
+            </label>
+
+            <label class="field field-full">
+              <span>Remarques</span>
+              <textarea id="notes" rows="5"></textarea>
+            </label>
+          </div>
+
+          <button class="mail-action" type="submit">
+            <span aria-hidden="true">✉️</span>
+            <span>Créer le mail</span>
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
