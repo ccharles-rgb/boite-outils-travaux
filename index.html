@@ -17,7 +17,18 @@
         <h1 id="page-title">Conducteur de travaux</h1>
       </section>
 
-      <section class="tool-card" aria-labelledby="requests-title">
+      <nav class="app-tabs" aria-label="Navigation principale">
+        <button class="tab-button active" type="button" data-page="requestsPage">
+          <span aria-hidden="true">📋</span>
+          <span>Demandes</span>
+        </button>
+        <button class="tab-button" type="button" data-page="jobsitesPage">
+          <span aria-hidden="true">🏗️</span>
+          <span>Chantiers</span>
+        </button>
+      </nav>
+
+      <section class="tool-card app-page active" id="requestsPage" aria-labelledby="requests-title">
         <div class="card-header">
           <div>
             <p class="card-kicker">Gestion rapide</p>
@@ -35,7 +46,9 @@
           <div class="form-grid">
             <label class="field">
               <span>Chantier</span>
-              <input type="text" id="siteName" autocomplete="organization" required>
+              <select id="siteName" required>
+                <option value="" selected disabled>Choisir un chantier</option>
+              </select>
             </label>
 
             <label class="field">
@@ -85,8 +98,46 @@
           </button>
         </form>
       </section>
+
+      <section class="tool-card app-page" id="jobsitesPage" aria-labelledby="jobsites-title">
+        <div class="card-header">
+          <div>
+            <p class="card-kicker">Base chantier</p>
+            <h2 id="jobsites-title">Chantiers</h2>
+          </div>
+          <span class="card-icon" aria-hidden="true">🏗️</span>
+        </div>
+
+        <form class="jobsite-form" id="jobsiteForm">
+          <div class="form-grid">
+            <label class="field">
+              <span>Nom du chantier</span>
+              <input type="text" id="newJobsiteName" required>
+            </label>
+
+            <label class="field">
+              <span>Adresse associée</span>
+              <input type="text" id="newJobsiteAddress" required>
+            </label>
+          </div>
+
+          <button class="mail-action" type="submit">
+            <span aria-hidden="true">➕</span>
+            <span>Ajouter le chantier</span>
+          </button>
+          <p class="sync-status" id="jobsiteStatus">Chargement des chantiers...</p>
+        </form>
+
+        <div class="jobsite-list-header">
+          <h3>Liste des chantiers</h3>
+          <span id="jobsiteCount">0 chantier</span>
+        </div>
+
+        <div class="jobsite-list" id="jobsiteList" aria-live="polite"></div>
+      </section>
     </main>
 
+    <script src="data.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

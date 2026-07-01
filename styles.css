@@ -45,6 +45,37 @@ textarea {
   margin-bottom: 24px;
 }
 
+.app-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.tab-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 800;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.tab-button.active,
+.tab-button:hover,
+.tab-button:focus-visible {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 8px 20px rgba(23, 105, 224, 0.14);
+}
+
 .eyebrow,
 .card-kicker {
   margin: 0 0 8px;
@@ -78,6 +109,14 @@ h2 {
   border: 1px solid rgba(217, 225, 236, 0.9);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+}
+
+.app-page {
+  display: none;
+}
+
+.app-page.active {
+  display: block;
 }
 
 .card-header {
@@ -149,6 +188,10 @@ h2 {
   border-top: 1px solid var(--line);
 }
 
+.jobsite-form {
+  padding-top: 4px;
+}
+
 .form-grid {
   /* Deux colonnes sur grand écran, une seule sur mobile. */
   display: grid;
@@ -198,6 +241,84 @@ textarea:focus {
   box-shadow: 0 0 0 4px rgba(23, 105, 224, 0.13);
 }
 
+.jobsite-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.jobsite-list-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.jobsite-list-header span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.jobsite-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.jobsite-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fbfcfe;
+}
+
+.jobsite-item strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.jobsite-item address {
+  color: var(--muted);
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.delete-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #ffd1d1;
+  border-radius: var(--radius);
+  background: #fff5f5;
+  color: #b42318;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.empty-state {
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--muted);
+  background: #fbfcfe;
+}
+
+.sync-status {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
 @media (max-width: 680px) {
   .app-shell {
     width: min(100% - 22px, 760px);
@@ -225,5 +346,18 @@ textarea:focus {
   .primary-action,
   .mail-action {
     min-height: 60px;
+  }
+
+  .tab-button {
+    flex: 1 1 150px;
+  }
+
+  .jobsite-list-header,
+  .jobsite-item {
+    grid-template-columns: 1fr;
+  }
+
+  .delete-button {
+    width: 100%;
   }
 }
