@@ -188,6 +188,20 @@ h2 {
   border-top: 1px solid var(--line);
 }
 
+.form-section {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.form-section:first-of-type {
+  padding-top: 0;
+}
+
+.form-section h3 {
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+}
+
 .jobsite-form {
   padding-top: 4px;
 }

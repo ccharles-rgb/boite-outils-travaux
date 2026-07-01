@@ -16,14 +16,17 @@ const tabButtons = document.querySelectorAll(".tab-button");
 const appPages = document.querySelectorAll(".app-page");
 
 const fields = {
+  siteNumber: document.querySelector("#siteNumber"),
   siteName: document.querySelector("#siteName"),
   siteAddress: document.querySelector("#siteAddress"),
-  requestedDate: document.querySelector("#requestedDate"),
-  requestedTime: document.querySelector("#requestedTime"),
-  truckType: document.querySelector("#truckType"),
-  rackCount: document.querySelector("#rackCount"),
-  siteContact: document.querySelector("#siteContact"),
-  notes: document.querySelector("#notes"),
+  pickupAddress: document.querySelector("#pickupAddress"),
+  pickupContact: document.querySelector("#pickupContact"),
+  pickupDateTime: document.querySelector("#pickupDateTime"),
+  goodsDetails: document.querySelector("#goodsDetails"),
+  pickupLoading: document.querySelector("#pickupLoading"),
+  deliveryContact: document.querySelector("#deliveryContact"),
+  deliveryDateTime: document.querySelector("#deliveryDateTime"),
+  deliveryUnloading: document.querySelector("#deliveryUnloading"),
   newJobsiteName: document.querySelector("#newJobsiteName"),
   newJobsiteAddress: document.querySelector("#newJobsiteAddress")
 };
@@ -40,7 +43,7 @@ openTruckFormButton.addEventListener("click", () => {
   truckForm.hidden = !truckForm.hidden;
 
   if (!truckForm.hidden) {
-    fields.siteName.focus();
+    fields.siteNumber.focus();
   }
 });
 
@@ -106,9 +109,8 @@ truckForm.addEventListener("submit", (event) => {
     return;
   }
 
-  const subject = `Demande de camion - ${fields.siteName.value.trim()}`;
+  const subject = `Demande de transport - ${getSiteLabel()}`;
   const body = buildEmailBody();
-  // Le lien mailto ouvre Outlook ou le logiciel mail par defaut de l'utilisateur.
   const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   window.location.href = mailtoUrl;
@@ -129,7 +131,8 @@ async function loadPublishedJobsites() {
   }
 
   try {
-    const response = await fetch(`${appConfig.googleSheetCsvUrl}&cacheBust=${Date.now()}`);
+    const separator = appConfig.googleSheetCsvUrl.includes("?") ? "&" : "?";
+    const response = await fetch(`${appConfig.googleSheetCsvUrl}${separator}cacheBust=${Date.now()}`);
 
     if (!response.ok) {
       throw new Error("Impossible de charger la Google Sheet.");
@@ -138,7 +141,7 @@ async function loadPublishedJobsites() {
     const csvText = await response.text();
     return parseJobsitesCsv(csvText);
   } catch {
-    setJobsiteStatus("Google Sheets indisponible : la liste de secours est affichee.");
+    setJobsiteStatus("Google Sheets indisponible : la liste de secours est affichée.");
     return siteJobsites;
   }
 }
@@ -155,10 +158,10 @@ async function sendJobsiteToGoogleSheet(jobsite) {
     });
 
     savePersonalJobsite(jobsite);
-    setJobsiteStatus("Chantier envoye a Google Sheets. Il apparaitra partout apres actualisation.");
+    setJobsiteStatus("Chantier envoyé à Google Sheets. Il apparaîtra partout après actualisation.");
   } catch {
     savePersonalJobsite(jobsite);
-    setJobsiteStatus("Envoi Google Sheets impossible : chantier garde sur cet appareil.");
+    setJobsiteStatus("Envoi Google Sheets impossible : chantier gardé sur cet appareil.");
   }
 }
 
@@ -178,7 +181,7 @@ function savePersonalJobsite(newJobsite) {
   saveToStorage(deletedStorageKey, deletedSiteJobsites);
 
   if (!appConfig.googleAppsScriptUrl) {
-    setJobsiteStatus("Chantier ajoute sur cet appareil. Configure Apps Script pour l'ajouter partout.");
+    setJobsiteStatus("Chantier ajouté sur cet appareil. Configure Apps Script pour l'ajouter partout.");
   }
 }
 
@@ -250,7 +253,7 @@ function renderJobsites() {
   jobsiteCount.textContent = `${jobsites.length} chantier${jobsites.length > 1 ? "s" : ""}`;
 
   if (jobsites.length === 0) {
-    jobsiteList.innerHTML = '<p class="empty-state">Aucun chantier enregistre pour le moment.</p>';
+    jobsiteList.innerHTML = '<p class="empty-state">Aucun chantier enregistré pour le moment.</p>';
     return;
   }
 
@@ -334,11 +337,11 @@ function setJobsiteStatus(message) {
 
 function getDataSourceMessage() {
   if (appConfig.googleSheetCsvUrl && appConfig.googleAppsScriptUrl) {
-    return "Chantiers synchronises avec Google Sheets.";
+    return "Chantiers synchronisés avec Google Sheets.";
   }
 
   if (appConfig.googleSheetCsvUrl) {
-    return "Chantiers lus depuis Google Sheets. L'ajout direct necessite Apps Script.";
+    return "Chantiers lus depuis Google Sheets. L'ajout direct nécessite Apps Script.";
   }
 
   return "Mode local : ajoute l'URL Google Sheets dans data.js pour partager la liste.";
@@ -346,30 +349,38 @@ function getDataSourceMessage() {
 
 function buildEmailBody() {
   return [
-    "Bonjour,",
+    "Salut,",
     "",
-    "Merci de prevoir un camion pour le chantier :",
     "",
-    `Chantier : ${fields.siteName.value.trim()}`,
-    `Adresse : ${fields.siteAddress.value.trim()}`,
-    `Date : ${formatFrenchDate(fields.requestedDate.value)}`,
-    `Heure : ${fields.requestedTime.value}`,
-    `Type de camion : ${fields.truckType.value}`,
-    `Nombre de racks : ${fields.rackCount.value.trim()}`,
-    `Contact chantier : ${fields.siteContact.value.trim()}`,
-    `Remarques : ${fields.notes.value.trim()}`,
+    "Peux-tu prévoir le transport suivant stp :",
     "",
-    "Merci."
+    "",
+    `Numéro de chantier : ${getSiteLabel()}`,
+    "",
+    "",
+    `Adresse d’enlèvement : ${fields.pickupAddress.value.trim()}`,
+    "",
+    `Nom contact et N° tel pour enlèvement : ${fields.pickupContact.value.trim()}`,
+    "",
+    `Date souhaitée d’enlèvement et horaire : ${fields.pickupDateTime.value.trim()}`,
+    "",
+    `Nature de la marchandise – Dimensions – Poids : ${fields.goodsDetails.value.trim()}`,
+    "",
+    `Moyen de chargement au point d’enlèvement : ${fields.pickupLoading.value.trim()}`,
+    "",
+    "",
+    `Adresse de livraison : ${fields.siteAddress.value.trim()}`,
+    "",
+    `Nom contact et N° tel pour déchargement : ${fields.deliveryContact.value.trim()}`,
+    "",
+    `Date souhaitée de livraison– Fourchette de date et d’horaire à donner impérativement : ${fields.deliveryDateTime.value.trim()}`,
+    "",
+    `Moyen de déchargement au point de livraison : ${fields.deliveryUnloading.value.trim()}`
   ].join("\n");
 }
 
-function formatFrenchDate(dateValue) {
-  if (!dateValue) {
-    return "";
-  }
-
-  const [year, month, day] = dateValue.split("-");
-  return `${day}/${month}/${year}`;
+function getSiteLabel() {
+  return `${fields.siteNumber.value.trim()} ${fields.siteName.value.trim()}`.trim();
 }
 
 function escapeHtml(value) {

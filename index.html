@@ -43,54 +43,73 @@
         </button>
 
         <form class="request-form" id="truckForm" hidden>
-          <div class="form-grid">
-            <label class="field">
-              <span>Chantier</span>
-              <select id="siteName" required>
-                <option value="" selected disabled>Choisir un chantier</option>
-              </select>
-            </label>
+          <section class="form-section" aria-labelledby="transport-title">
+            <h3 id="transport-title">Transport</h3>
+            <div class="form-grid">
+              <label class="field">
+                <span>Numéro de chantier</span>
+                <input type="text" id="siteNumber" inputmode="numeric" placeholder="23508" required>
+              </label>
 
-            <label class="field">
-              <span>Adresse</span>
-              <input type="text" id="siteAddress" autocomplete="street-address" required>
-            </label>
+              <label class="field">
+                <span>Chantier</span>
+                <select id="siteName" required>
+                  <option value="" selected disabled>Choisir un chantier</option>
+                </select>
+              </label>
+            </div>
+            <input type="hidden" id="siteAddress">
+          </section>
 
-            <label class="field">
-              <span>Date souhaitée</span>
-              <input type="date" id="requestedDate" required>
-            </label>
+          <section class="form-section" aria-labelledby="pickup-title">
+            <h3 id="pickup-title">Enlèvement</h3>
+            <div class="form-grid">
+              <label class="field field-full">
+                <span>Adresse d’enlèvement</span>
+                <input type="text" id="pickupAddress" value="BRIAND BOIS 2 rue des compagnons ST SYLVAIN ANJOU" required>
+              </label>
 
-            <label class="field">
-              <span>Heure souhaitée</span>
-              <input type="time" id="requestedTime" required>
-            </label>
+              <label class="field field-full">
+                <span>Nom contact et N° tel pour enlèvement</span>
+                <input type="text" id="pickupContact" value="Thibaud CHAMPAGNE 06 24 73 78 43" required>
+              </label>
 
-            <label class="field">
-              <span>Type de camion</span>
-              <select id="truckType" required>
-                <option value="" selected disabled>Choisir un camion</option>
-                <option value="Semi">Semi</option>
-                <option value="Porte-char">Porte-char</option>
-                <option value="Extra surbaissé">Extra surbaissé</option>
-              </select>
-            </label>
+              <label class="field">
+                <span>Date et horaire d’enlèvement</span>
+                <input type="text" id="pickupDateTime" placeholder="Vendredi 3/07 9h" required>
+              </label>
 
-            <label class="field">
-              <span>Nombre de racks</span>
-              <input type="number" id="rackCount" inputmode="numeric" min="0" step="1">
-            </label>
+              <label class="field">
+                <span>Moyen de chargement</span>
+                <input type="text" id="pickupLoading" value="Chariot" required>
+              </label>
 
-            <label class="field">
-              <span>Contact chantier</span>
-              <input type="text" id="siteContact" autocomplete="name">
-            </label>
+              <label class="field field-full">
+                <span>Nature de la marchandise – Dimensions – Poids</span>
+                <textarea id="goodsDetails" rows="4" required>1 container (2m50*2m50/2m de hauteur, 1T) + 8 palettes de quincaillerie (2m*2m*2m, 1T au total)</textarea>
+              </label>
+            </div>
+          </section>
 
-            <label class="field field-full">
-              <span>Remarques</span>
-              <textarea id="notes" rows="5"></textarea>
-            </label>
-          </div>
+          <section class="form-section" aria-labelledby="delivery-title">
+            <h3 id="delivery-title">Livraison</h3>
+            <div class="form-grid">
+              <label class="field field-full">
+                <span>Nom contact et N° tel pour déchargement</span>
+                <input type="text" id="deliveryContact" placeholder="Lorenzo 06 20 34 18 48" required>
+              </label>
+
+              <label class="field">
+                <span>Date / fourchette de livraison</span>
+                <input type="text" id="deliveryDateTime" placeholder="Lundi 6/07 à partir de 7h" required>
+              </label>
+
+              <label class="field">
+                <span>Moyen de déchargement</span>
+                <input type="text" id="deliveryUnloading" value="Grue à tour" required>
+              </label>
+            </div>
+          </section>
 
           <button class="mail-action" type="submit">
             <span aria-hidden="true">✉️</span>
